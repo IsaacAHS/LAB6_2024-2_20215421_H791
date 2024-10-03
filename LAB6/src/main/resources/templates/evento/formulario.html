@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/navbar.html :: header( title = 'Eventos')}"></head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragments/navbar.html :: navbar( active = 'Eventos')}"></nav>
+    <div class="row mb-4">
+        <div class="col-md-6 offset-md-3">
+            <h2 th:text="${evento.id==0? 'Nuevo Evento':'Editar Evento'}">Editar Producto</h2>
+            <hr/>
+            <div class="alert alert-danger" role="alert" th:if="${msg != null}" th:text="${msg}">
+                A simple success alert—check it out!
+            </div>
+            <form method="post" th:action="@{'/eventos/guardar'}" th:object="${evento}">
+                <input th:field="*{id}" type="hidden"/>
+                <div class="mb-3">
+                    <label class="form-label">Nombre del Evento</label>
+                    <input th:field="*{nombre}" type="text" class="form-control"
+                           th:classappend="${#fields.hasErrors('nombre')?'is-invalid':''}"/>
+                    <div id="validationServer03Feedback" class="invalid-feedback"
+                         th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">
+                        Mensaje de error de nombre
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Proveedor</label>
+                    <select class="form-select" name="supplier" th:field="*{supplier}">
+                        <option th:each="supplier : ${listaProveedores}" th:value="${supplier.id}"
+                                th:text="${supplier.companyname}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Fecha</label>
+                    <input th:field="*{fecha}" type="date" class="form-control"/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Asistentes esperados</label>
+                    <input th:field="*{asisesper}" type="number" class="form-control"/>
+                </div>
+
+                <a th:href="@{'/eventos'}" class="btn btn-danger">Cancelar</a>
+                <button type="submit" class="btn btn-primary"
+                        th:text="${evento.id==0? 'Guardar':'Actualizar'}">Actualizar
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:replace="~{fragments/navbar.html :: footer-bootstrap}"></script>
+</body>
+</html>

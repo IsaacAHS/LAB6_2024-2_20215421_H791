@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/navbar.html :: header( title = 'Eventos')}"></head>
+<body>
+<main>
+    <div class="container px-4 py-5">
+        <nav th:replace="~{fragments/navbar.html :: navbar( active = 'Eventos')}"></nav>
+        <h1 class="pb-2 border-bottom">Lista de Eventos</h1>
+        <div class="d-flex mt-3 mb-4">
+            <a class="btn btn-primary" th:href="@{'/eventos/nuevo'}">Nuevo Evento</a>
+            <a class="btn btn-secondary ms-auto" th:href="@{'/'}">Regresar</a>
+        </div>
+        <form method="post" th:action="@{/eventos/BuscarEvento}">
+            <input name="searchField" class="form-control mb-3" type="text" placeholder="Search"/>
+        </form>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Fecha</th>
+                <th>Nombre</th>
+                <th>Asistentes</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="evento, info : ${listaEventos}">
+                <td th:text="${info.index + 1}"></td>
+                <td th:text="${evento.fecha}"></td>
+                <td th:text="${evento.nombre}"></td>
+                <td th:text="${evento.asisesper}"></td>
+                <td><a class="btn btn-primary"
+                       th:href="@{'/eventos/edit?id=' + ${evento.id}}">Editar</a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<script th:replace="~{fragments/navbar.html :: footer-bootstrap}"></script>
+</body>
+</html>
